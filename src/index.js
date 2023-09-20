@@ -1,6 +1,6 @@
 let addToy = false;
 
-document.addEventListener("DOMContentLoaded", () => {
+// document.addEventListener("DOMContentLoaded", () => {
   const addBtn = document.querySelector("#new-toy-btn");
   const toyFormContainer = document.querySelector(".container");
   addBtn.addEventListener("click", () => {
@@ -12,12 +12,12 @@ document.addEventListener("DOMContentLoaded", () => {
       toyFormContainer.style.display = "none";
     }
   });
-})
+// })
 
 //! Global Variables
-let toyCollection = document.getElementById("toy-collection")
+const toyCollection = document.getElementById("toy-collection")
 const addNewToyForm = document.querySelector(".add-toy-form")
-
+const URL = "http://localhost:3000/toys"
 //! Helper Functions
 const createToyCard = toy => {
   //create elements in HTML
@@ -40,7 +40,7 @@ const createToyCard = toy => {
   toyImage.alt = toy.name
 
   toyButton.addEventListener('click', e => {
-    fetch(`http://localhost:3000/toys/${toy.id}`, {
+    fetch(`${URL}/${toy.id}`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json"
@@ -48,8 +48,9 @@ const createToyCard = toy => {
       body: JSON.stringify({likes: ++toy.likes})
     })
     .then(response => response.json())
+    
     .then(updatedLikes => {
-      e.target.parentElement.querySelector("toyLikes").textContent = `${updatedLikes.likes} Likes`
+      toyLikes.textContent = `${updatedLikes.likes} Likes`
     })
     .catch(error => alert(error))
   })
